@@ -40,34 +40,28 @@ export class TodoService {
   ]);
 
   // Signals computed - données dérivées (se recalculent automatiquement)
-  public completedTodos = computed(() => 
-    this.todos().filter(todo => todo.status === 'done')
-  );
+  public completedTodos = computed(() => this.todos().filter(todo => todo.status === 'done'));
 
-  public pendingTodos = computed(() => 
-    this.todos().filter(todo => todo.status === 'todo')
-  );
+  public pendingTodos = computed(() => this.todos().filter(todo => todo.status === 'todo'));
 
-  public inProgressTodos = computed(() => 
+  public inProgressTodos = computed(() =>
     this.todos().filter(todo => todo.status === 'in-progress')
   );
 
-  public highPriorityTodos = computed(() => 
-    this.todos().filter(todo => todo.priority === 'high')
-  );
+  public highPriorityTodos = computed(() => this.todos().filter(todo => todo.priority === 'high'));
 
   public todoStats = computed(() => {
     const todos = this.todos();
     const completed = this.completedTodos().length;
     const total = todos.length;
-    
+
     return {
       total,
       completed,
       pending: total - completed,
       completionRate: total > 0 ? Math.round((completed / total) * 100) : 0,
       highPriority: this.highPriorityTodos().length,
-      inProgress: todos.filter(todo => todo.status === 'in-progress').length
+      inProgress: todos.filter(todo => todo.status === 'in-progress').length,
     };
   });
 
@@ -79,16 +73,16 @@ export class TodoService {
     effect(() => {
       const todos = this.todos();
       const stats = this.todoStats();
-      
-      console.warn(`📊 TodoService - Effect déclenché:`);
+
+      console.warn('📊 TodoService - Effect déclenché:');
       console.warn(`   - Total todos: ${stats.total}`);
       console.warn(`   - Complétés: ${stats.completed} (${stats.completionRate}%)`);
       console.warn(`   - En cours: ${stats.inProgress}`);
       console.warn(`   - Priorité haute: ${stats.highPriority}`);
-      
+
       // Sauvegarder dans localStorage
       localStorage.setItem('todos', JSON.stringify(todos));
-      console.warn(`💾 Todos sauvegardés dans localStorage`);
+      console.warn('💾 Todos sauvegardés dans localStorage');
     });
   }
 

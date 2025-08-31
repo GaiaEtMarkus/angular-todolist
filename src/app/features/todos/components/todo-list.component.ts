@@ -20,19 +20,27 @@ import { HighlightDirective } from '../../../shared/directives/highlight.directi
           </div>
           <div class="bg-white p-4 rounded-lg shadow">
             <div class="text-sm font-medium text-gray-500">Complétés</div>
-            <div class="text-2xl font-bold text-green-600">{{ todoService.getStats().completed }}</div>
+            <div class="text-2xl font-bold text-green-600">
+              {{ todoService.getStats().completed }}
+            </div>
           </div>
           <div class="bg-white p-4 rounded-lg shadow">
             <div class="text-sm font-medium text-gray-500">En cours</div>
-            <div class="text-2xl font-bold text-blue-600">{{ todoService.getStats().inProgress }}</div>
+            <div class="text-2xl font-bold text-blue-600">
+              {{ todoService.getStats().inProgress }}
+            </div>
           </div>
           <div class="bg-white p-4 rounded-lg shadow">
             <div class="text-sm font-medium text-gray-500">Priorité haute</div>
-            <div class="text-2xl font-bold text-red-600">{{ todoService.getStats().highPriority }}</div>
+            <div class="text-2xl font-bold text-red-600">
+              {{ todoService.getStats().highPriority }}
+            </div>
           </div>
           <div class="bg-white p-4 rounded-lg shadow">
             <div class="text-sm font-medium text-gray-500">Taux de complétion</div>
-            <div class="text-2xl font-bold text-purple-600">{{ todoService.getStats().completionRate }}%</div>
+            <div class="text-2xl font-bold text-purple-600">
+              {{ todoService.getStats().completionRate }}%
+            </div>
           </div>
         </div>
       </div>
@@ -42,19 +50,19 @@ import { HighlightDirective } from '../../../shared/directives/highlight.directi
         <!-- À faire -->
         <div class="bg-gray-50 rounded-lg p-4">
           <h3 class="text-lg font-semibold text-gray-900 mb-4">
-            À faire 
+            À faire
             <span class="text-sm text-gray-500">({{ todoService.pendingTodos().length }})</span>
           </h3>
           <div class="space-y-3">
             @for (todo of todoService.pendingTodos(); track todo.id) {
-              <div 
+              <div
                 class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-gray-400"
                 [appHighlight]="todo.priority === 'high' ? 'rgba(239, 68, 68, 0.1)' : 'transparent'"
                 [appHighlightDelay]="todo.priority === 'high' ? 500 : 0"
               >
                 <div class="flex justify-between items-start mb-2">
                   <h4 class="font-medium text-gray-900">{{ todo.title }}</h4>
-                  <span 
+                  <span
                     class="px-2 py-1 text-xs font-semibold rounded-full"
                     [class.bg-red-100]="todo.priority === 'high'"
                     [class.text-red-800]="todo.priority === 'high'"
@@ -70,7 +78,7 @@ import { HighlightDirective } from '../../../shared/directives/highlight.directi
                   <p class="text-sm text-gray-600 mb-3">{{ todo.description }}</p>
                 }
                 <div class="flex justify-between items-center text-xs text-gray-500">
-                  <span>Créé le {{ todo.createdAt | date:'dd/MM/yyyy' }}</span>
+                  <span>Créé le {{ todo.createdAt | date: 'dd/MM/yyyy' }}</span>
                 </div>
               </div>
             }
@@ -85,14 +93,14 @@ import { HighlightDirective } from '../../../shared/directives/highlight.directi
           </h3>
           <div class="space-y-3">
             @for (todo of todoService.inProgressTodos(); track todo.id) {
-              <div 
+              <div
                 class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-blue-400"
                 [appHighlight]="todo.priority === 'high' ? 'rgba(239, 68, 68, 0.1)' : 'transparent'"
                 [appHighlightDelay]="todo.priority === 'high' ? 500 : 0"
               >
                 <div class="flex justify-between items-start mb-2">
                   <h4 class="font-medium text-gray-900">{{ todo.title }}</h4>
-                  <span 
+                  <span
                     class="px-2 py-1 text-xs font-semibold rounded-full"
                     [class.bg-red-100]="todo.priority === 'high'"
                     [class.text-red-800]="todo.priority === 'high'"
@@ -108,7 +116,7 @@ import { HighlightDirective } from '../../../shared/directives/highlight.directi
                   <p class="text-sm text-gray-600 mb-3">{{ todo.description }}</p>
                 }
                 <div class="flex justify-between items-center text-xs text-gray-500">
-                  <span>Mis à jour le {{ todo.updatedAt | date:'dd/MM/yyyy' }}</span>
+                  <span>Mis à jour le {{ todo.updatedAt | date: 'dd/MM/yyyy' }}</span>
                 </div>
               </div>
             }
@@ -123,14 +131,14 @@ import { HighlightDirective } from '../../../shared/directives/highlight.directi
           </h3>
           <div class="space-y-3">
             @for (todo of todoService.completedTodos(); track todo.id) {
-              <div 
+              <div
                 class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-green-400"
                 [appHighlight]="'rgba(34, 197, 94, 0.1)'"
                 [appHighlightDelay]="200"
               >
                 <div class="flex justify-between items-start mb-2">
                   <h4 class="font-medium text-gray-900 line-through">{{ todo.title }}</h4>
-                  <span 
+                  <span
                     class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800"
                   >
                     {{ todo.priority | priority }}
@@ -140,7 +148,7 @@ import { HighlightDirective } from '../../../shared/directives/highlight.directi
                   <p class="text-sm text-gray-600 mb-3 line-through">{{ todo.description }}</p>
                 }
                 <div class="flex justify-between items-center text-xs text-gray-500">
-                  <span>Terminé le {{ todo.updatedAt | date:'dd/MM/yyyy' }}</span>
+                  <span>Terminé le {{ todo.updatedAt | date: 'dd/MM/yyyy' }}</span>
                 </div>
               </div>
             }
