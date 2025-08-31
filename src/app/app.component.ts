@@ -12,7 +12,7 @@ import { HeaderComponent } from './shared/components/header/header.component';
       <router-outlet></router-outlet>
     </main>
   `,
-  styles: []
+  styles: [],
 })
 export class AppComponent {
   title = 'todo-list-app';

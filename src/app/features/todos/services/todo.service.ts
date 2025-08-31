@@ -2,19 +2,19 @@ import { Injectable, signal } from '@angular/core';
 import { Todo, CreateTodoRequest } from '../models/todo.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TodoService {
   private todos = signal<Todo[]>([
     {
       id: 1,
       title: 'Apprendre Angular',
-      description: 'Étudier les fondamentaux d\'Angular 20+',
+      description: "Étudier les fondamentaux d'Angular 20+",
       status: 'todo',
       priority: 'high',
       createdBy: 1,
       createdAt: new Date('2024-01-15'),
-      updatedAt: new Date('2024-01-15')
+      updatedAt: new Date('2024-01-15'),
     },
     {
       id: 2,
@@ -24,18 +24,18 @@ export class TodoService {
       priority: 'medium',
       createdBy: 1,
       createdAt: new Date('2024-01-14'),
-      updatedAt: new Date('2024-01-16')
+      updatedAt: new Date('2024-01-16'),
     },
     {
       id: 3,
-      title: 'Configurer l\'environnement',
+      title: "Configurer l'environnement",
       description: 'Installer Node.js, Angular CLI et configurer VS Code',
       status: 'done',
       priority: 'high',
       createdBy: 1,
       createdAt: new Date('2024-01-13'),
-      updatedAt: new Date('2024-01-14')
-    }
+      updatedAt: new Date('2024-01-14'),
+    },
   ]);
 
   // Simuler un délai réseau
@@ -62,7 +62,7 @@ export class TodoService {
 
   // POST - Créer un nouveau todo
   async createTodo(todoData: CreateTodoRequest): Promise<Todo> {
-    console.log('🔄 Service: Création d\'un nouveau todo...', todoData);
+    console.log("🔄 Service: Création d'un nouveau todo...", todoData);
     await this.delay(400);
 
     const newTodo: Todo = {
@@ -74,7 +74,7 @@ export class TodoService {
       assignedTo: todoData.assignedTo,
       createdBy: 1, // TODO: Récupérer l'ID de l'utilisateur connecté
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
     };
 
     this.todos.update(todos => [...todos, newTodo]);
@@ -94,7 +94,7 @@ export class TodoService {
           updatedTodo = {
             ...todo,
             ...updates,
-            updatedAt: new Date()
+            updatedAt: new Date(),
           };
           return updatedTodo;
         }

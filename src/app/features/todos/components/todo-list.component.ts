@@ -15,7 +15,9 @@ import { TodoService } from '../services/todo.service';
       <!-- Loading state -->
       @if (loading()) {
         <div class="text-center py-8">
-          <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+          <div
+            class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"
+          ></div>
           <p class="mt-2 text-gray-600">Chargement des todos...</p>
         </div>
       } @else {
@@ -30,21 +32,20 @@ import { TodoService } from '../services/todo.service';
                 name="title"
                 placeholder="Titre de la tâche"
                 class="border p-2 rounded"
-                required>
+                required
+              />
 
               <input
                 type="text"
                 [(ngModel)]="newTodo.description"
                 name="description"
                 placeholder="Description (optionnel)"
-                class="border p-2 rounded">
+                class="border p-2 rounded"
+              />
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <select
-                [(ngModel)]="newTodo.priority"
-                name="priority"
-                class="border p-2 rounded">
+              <select [(ngModel)]="newTodo.priority" name="priority" class="border p-2 rounded">
                 <option value="low">Basse priorité</option>
                 <option value="medium">Priorité moyenne</option>
                 <option value="high">Haute priorité</option>
@@ -53,9 +54,12 @@ import { TodoService } from '../services/todo.service';
               <button
                 type="submit"
                 [disabled]="!todoForm.form.valid || addingTodo()"
-                class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50">
+                class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
+              >
                 @if (addingTodo()) {
-                  <span class="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></span>
+                  <span
+                    class="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"
+                  ></span>
                   Ajout en cours...
                 } @else {
                   Ajouter
@@ -79,17 +83,20 @@ import { TodoService } from '../services/todo.service';
                   <p class="text-gray-600 text-sm mt-1">{{ todo.description }}</p>
                 }
                 <div class="flex justify-between items-center mt-2">
-                  <span class="text-xs px-2 py-1 rounded"
-                        [ngClass]="{
-                          'bg-red-100 text-red-800': todo.priority === 'high',
-                          'bg-yellow-100 text-yellow-800': todo.priority === 'medium',
-                          'bg-green-100 text-green-800': todo.priority === 'low'
-                        }">
+                  <span
+                    class="text-xs px-2 py-1 rounded"
+                    [ngClass]="{
+                      'bg-red-100 text-red-800': todo.priority === 'high',
+                      'bg-yellow-100 text-yellow-800': todo.priority === 'medium',
+                      'bg-green-100 text-green-800': todo.priority === 'low',
+                    }"
+                  >
                     {{ todo.priority | titlecase }}
                   </span>
                   <button
                     (click)="updateStatus(todo.id, 'in-progress')"
-                    class="text-blue-600 hover:text-blue-800">
+                    class="text-blue-600 hover:text-blue-800"
+                  >
                     Commencer
                   </button>
                 </div>
@@ -109,17 +116,20 @@ import { TodoService } from '../services/todo.service';
                   <p class="text-gray-600 text-sm mt-1">{{ todo.description }}</p>
                 }
                 <div class="flex justify-between items-center mt-2">
-                  <span class="text-xs px-2 py-1 rounded"
-                        [ngClass]="{
-                          'bg-red-100 text-red-800': todo.priority === 'high',
-                          'bg-yellow-100 text-yellow-800': todo.priority === 'medium',
-                          'bg-green-100 text-green-800': todo.priority === 'low'
-                        }">
+                  <span
+                    class="text-xs px-2 py-1 rounded"
+                    [ngClass]="{
+                      'bg-red-100 text-red-800': todo.priority === 'high',
+                      'bg-yellow-100 text-yellow-800': todo.priority === 'medium',
+                      'bg-green-100 text-green-800': todo.priority === 'low',
+                    }"
+                  >
                     {{ todo.priority | titlecase }}
                   </span>
                   <button
                     (click)="updateStatus(todo.id, 'done')"
-                    class="text-green-600 hover:text-green-800">
+                    class="text-green-600 hover:text-green-800"
+                  >
                     Terminer
                   </button>
                 </div>
@@ -142,9 +152,7 @@ import { TodoService } from '../services/todo.service';
                   <span class="text-xs px-2 py-1 rounded bg-green-100 text-green-800">
                     {{ todo.priority | titlecase }}
                   </span>
-                  <button
-                    (click)="deleteTodo(todo.id)"
-                    class="text-red-600 hover:text-red-800">
+                  <button (click)="deleteTodo(todo.id)" class="text-red-600 hover:text-red-800">
                     Supprimer
                   </button>
                 </div>
@@ -155,7 +163,7 @@ import { TodoService } from '../services/todo.service';
       }
     </div>
   `,
-  styles: []
+  styles: [],
 })
 export class TodoListComponent implements OnInit {
   private todoService = inject(TodoService);
@@ -167,7 +175,7 @@ export class TodoListComponent implements OnInit {
   newTodo = {
     title: '',
     description: '',
-    priority: 'medium' as const
+    priority: 'medium' as const,
   };
 
   async ngOnInit() {
@@ -193,7 +201,7 @@ export class TodoListComponent implements OnInit {
         await this.todoService.createTodo({
           title: this.newTodo.title,
           description: this.newTodo.description,
-          priority: this.newTodo.priority
+          priority: this.newTodo.priority,
         });
 
         // Recharger les todos
@@ -203,7 +211,7 @@ export class TodoListComponent implements OnInit {
         this.newTodo.title = '';
         this.newTodo.description = '';
       } catch (error) {
-        console.error('Erreur lors de l\'ajout du todo:', error);
+        console.error("Erreur lors de l'ajout du todo:", error);
       } finally {
         this.addingTodo.set(false);
       }

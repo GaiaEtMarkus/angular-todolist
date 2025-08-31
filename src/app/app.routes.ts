@@ -4,18 +4,18 @@ export const routes: Routes = [
   {
     path: '',
     redirectTo: '/todos',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'todos',
-    loadChildren: () => import('./features/todos/todos.routes').then(m => m.TODOS_ROUTES)
+    loadChildren: () => import('./features/todos/todos.routes').then(m => m.TODOS_ROUTES),
   },
   {
     path: 'auth',
-    loadChildren: () => import('./features/auth/auth.routes').then(m => m.AUTH_ROUTES)
+    loadChildren: () => import('./features/auth/auth.routes').then(m => m.AUTH_ROUTES),
   },
   {
     path: 'admin',
-    loadChildren: () => import('./features/admin/admin.routes').then(m => m.ADMIN_ROUTES)
-  }
+    loadChildren: () => import('./features/admin/admin.routes').then(m => m.ADMIN_ROUTES),
+  },
 ];

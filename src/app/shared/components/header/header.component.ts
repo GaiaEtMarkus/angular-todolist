@@ -19,7 +19,7 @@ import { RouterLink } from '@angular/router';
       </div>
     </header>
   `,
-  styles: []
+  styles: [],
 })
 export class HeaderComponent {
   logout() {
