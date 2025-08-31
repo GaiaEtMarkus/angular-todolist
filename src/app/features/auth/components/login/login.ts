@@ -87,7 +87,7 @@ import { User } from '../../models/user.model';
           <!-- Link to Register -->
           <div class="text-center">
             <p class="text-sm text-gray-600">
-              Pas encore de compte ? 
+              Pas encore de compte ?
               <a routerLink="/auth/register" class="font-medium text-blue-600 hover:text-blue-500">
                 S'inscrire
               </a>

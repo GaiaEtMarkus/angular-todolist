@@ -1,6 +1,13 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+  AbstractControl,
+  ValidationErrors,
+} from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
@@ -8,7 +15,7 @@ import { AuthService } from '../../services/auth.service';
 function passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
   const password = control.get('password');
   const confirmPassword = control.get('confirmPassword');
-  
+
   if (password && confirmPassword && password.value !== confirmPassword.value) {
     return { passwordMismatch: true };
   }
@@ -20,20 +27,18 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
   template: `
-    <div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div
+      class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8"
+    >
       <div class="max-w-md w-full space-y-8">
         <div>
-          <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Créer un compte
-          </h2>
+          <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Créer un compte</h2>
         </div>
-        
+
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="mt-8 space-y-6">
           <!-- Nom -->
           <div>
-            <label for="name" class="block text-sm font-medium text-gray-700">
-              Nom complet
-            </label>
+            <label for="name" class="block text-sm font-medium text-gray-700"> Nom complet </label>
             <input
               id="name"
               type="text"
@@ -113,7 +118,9 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
               class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
             >
               @if (loading()) {
-                <span class="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></span>
+                <span
+                  class="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"
+                ></span>
                 Création en cours...
               } @else {
                 Créer le compte
@@ -131,7 +138,7 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
           <!-- Link to Login -->
           <div class="text-center">
             <p class="text-sm text-gray-600">
-              Déjà un compte ? 
+              Déjà un compte ?
               <a routerLink="/auth/login" class="font-medium text-blue-600 hover:text-blue-500">
                 Se connecter
               </a>
@@ -140,7 +147,7 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
         </form>
       </div>
     </div>
-  `
+  `,
 })
 export class RegisterComponent {
   private fb = inject(FormBuilder);
@@ -152,12 +159,15 @@ export class RegisterComponent {
   error = signal<string>('');
 
   constructor() {
-    this.registerForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(2)]],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required]]
-    }, { validators: passwordMatchValidator });
+    this.registerForm = this.fb.group(
+      {
+        name: ['', [Validators.required, Validators.minLength(2)]],
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', [Validators.required, Validators.minLength(6)]],
+        confirmPassword: ['', [Validators.required]],
+      },
+      { validators: passwordMatchValidator }
+    );
   }
 
   onSubmit() {
@@ -173,7 +183,7 @@ export class RegisterComponent {
         error: (err: Error) => {
           this.loading.set(false);
           this.error.set(err.message || 'Erreur lors de la création du compte');
-        }
+        },
       });
     }
   }
@@ -188,9 +198,10 @@ export class RegisterComponent {
     if (field?.errors) {
       if (field.errors['required']) return 'Ce champ est requis';
       if (field.errors['email']) return "Format d'email invalide";
-      if (field.errors['minlength']) return `Minimum ${field.errors['minlength'].requiredLength} caractères`;
+      if (field.errors['minlength'])
+        return `Minimum ${field.errors['minlength'].requiredLength} caractères`;
       if (field.errors['passwordMismatch']) return 'Les mots de passe ne correspondent pas';
     }
     return '';
   }
-} 
+}
