@@ -53,13 +53,19 @@ import { Todo } from '../../todos/models/todo.model';
                 <table class="min-w-full divide-y divide-gray-200">
                   <thead class="bg-gray-50">
                     <tr>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
                         Utilisateur
                       </th>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
                         Rôle
                       </th>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
                         Actions
                       </th>
                     </tr>
@@ -70,7 +76,9 @@ import { Todo } from '../../todos/models/todo.model';
                         <td class="px-6 py-4 whitespace-nowrap">
                           <div class="flex items-center">
                             <div class="flex-shrink-0 h-10 w-10">
-                              <div class="h-10 w-10 rounded-full bg-gray-300 flex items-center justify-center">
+                              <div
+                                class="h-10 w-10 rounded-full bg-gray-300 flex items-center justify-center"
+                              >
                                 <span class="text-sm font-medium text-gray-700">
                                   {{ user.name.charAt(0).toUpperCase() }}
                                 </span>
@@ -128,16 +136,24 @@ import { Todo } from '../../todos/models/todo.model';
                 <table class="min-w-full divide-y divide-gray-200">
                   <thead class="bg-gray-50">
                     <tr>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
                         Ticket
                       </th>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
                         Statut
                       </th>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
                         Priorité
                       </th>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
                         Actions
                       </th>
                     </tr>
@@ -197,7 +213,7 @@ import { Todo } from '../../todos/models/todo.model';
         </div>
       }
     </div>
-  `
+  `,
 })
 export class AdminComponent implements OnInit {
   private authService = inject(AuthService);
@@ -225,7 +241,8 @@ export class AdminComponent implements OnInit {
     try {
       this.authService.getAllUsers().subscribe({
         next: (users: User[]) => this.users.set(users),
-        error: (error: Error) => console.error('Erreur lors du chargement des utilisateurs:', error)
+        error: (error: Error) =>
+          console.error('Erreur lors du chargement des utilisateurs:', error),
       });
     } catch (error) {
       console.error('Erreur lors du chargement des utilisateurs:', error);
@@ -246,7 +263,7 @@ export class AdminComponent implements OnInit {
       try {
         this.authService.deleteUser(userId).subscribe({
           next: () => this.loadUsers(),
-          error: (error: Error) => console.error('Erreur lors de la suppression:', error)
+          error: (error: Error) => console.error('Erreur lors de la suppression:', error),
         });
       } catch (error) {
         console.error('Erreur lors de la suppression:', error);
@@ -264,4 +281,4 @@ export class AdminComponent implements OnInit {
       }
     }
   }
-} 
+}
