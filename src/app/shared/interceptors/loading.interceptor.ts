@@ -29,26 +29,28 @@ const loadingService = new LoadingService();
 export function loadingInterceptor(request: HttpRequest<unknown>, next: HttpHandlerFn) {
   // Incrémenter le compteur de requêtes actives
   loadingService.increment();
-  
+
   // Logger le début de la requête
   console.warn(`🔄 Intercepteur Loading: Début requête ${request.method} ${request.url}`);
-  
+
   const startTime = Date.now();
 
   return next(request).pipe(
-    tap((event) => {
+    tap(event => {
       // Logger la réponse réussie
       if (event instanceof HttpResponse) {
         const duration = Date.now() - startTime;
-        console.warn(`✅ Intercepteur Loading: Réponse ${request.method} ${request.url} (${duration}ms)`);
+        console.warn(
+          `✅ Intercepteur Loading: Réponse ${request.method} ${request.url} (${duration}ms)`
+        );
       }
     }),
     finalize(() => {
       // Décrémenter le compteur de requêtes actives
       loadingService.decrement();
-      
+
       // Logger la fin de la requête
       console.warn(`🏁 Intercepteur Loading: Fin requête ${request.method} ${request.url}`);
     })
   );
-} 
+}

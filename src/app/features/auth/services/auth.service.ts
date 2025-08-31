@@ -8,7 +8,7 @@ import { ErrorService } from '../../../shared/services/error.service';
 })
 export class AuthService {
   private errorService = inject(ErrorService);
-  
+
   private currentUser = signal<User | null>(null);
   public currentUser$ = this.currentUser.asReadonly();
 

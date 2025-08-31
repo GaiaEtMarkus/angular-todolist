@@ -23,7 +23,7 @@ export class ErrorService {
     };
 
     this.errors.update(errors => [...errors, error]);
-    
+
     // Auto-remove après 5 secondes
     setTimeout(() => {
       this.removeError(error.id);
@@ -41,7 +41,7 @@ export class ErrorService {
     };
 
     this.errors.update(errors => [...errors, warning]);
-    
+
     // Auto-remove après 3 secondes
     setTimeout(() => {
       this.removeError(warning.id);
@@ -59,7 +59,7 @@ export class ErrorService {
     };
 
     this.errors.update(errors => [...errors, info]);
-    
+
     // Auto-remove après 2 secondes
     setTimeout(() => {
       this.removeError(info.id);
@@ -90,7 +90,7 @@ export class ErrorService {
         this.showError('Session expirée. Veuillez vous reconnecter.');
         break;
       case 403:
-        this.showError('Accès refusé. Vous n\'avez pas les permissions nécessaires.');
+        this.showError("Accès refusé. Vous n'avez pas les permissions nécessaires.");
         break;
       case 404:
         this.showError('Ressource non trouvée');
@@ -102,4 +102,4 @@ export class ErrorService {
         this.showError(message || `Erreur ${status}: Une erreur inattendue s'est produite.`);
     }
   }
-} 
+}

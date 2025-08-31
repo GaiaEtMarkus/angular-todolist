@@ -1,10 +1,11 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, computed, effect } from '@angular/core';
 import { Todo, CreateTodoRequest } from '../models/todo.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TodoService {
+  // Signal principal - données source
   private todos = signal<Todo[]>([
     {
       id: 1,
@@ -38,6 +39,59 @@ export class TodoService {
     },
   ]);
 
+  // Signals computed - données dérivées (se recalculent automatiquement)
+  public completedTodos = computed(() => 
+    this.todos().filter(todo => todo.status === 'done')
+  );
+
+  public pendingTodos = computed(() => 
+    this.todos().filter(todo => todo.status === 'todo')
+  );
+
+  public inProgressTodos = computed(() => 
+    this.todos().filter(todo => todo.status === 'in-progress')
+  );
+
+  public highPriorityTodos = computed(() => 
+    this.todos().filter(todo => todo.priority === 'high')
+  );
+
+  public todoStats = computed(() => {
+    const todos = this.todos();
+    const completed = this.completedTodos().length;
+    const total = todos.length;
+    
+    return {
+      total,
+      completed,
+      pending: total - completed,
+      completionRate: total > 0 ? Math.round((completed / total) * 100) : 0,
+      highPriority: this.highPriorityTodos().length,
+      inProgress: todos.filter(todo => todo.status === 'in-progress').length
+    };
+  });
+
+  // Signal readonly pour l'accès externe
+  public todos$ = this.todos.asReadonly();
+
+  constructor() {
+    // Effet - se déclenche automatiquement quand les todos changent
+    effect(() => {
+      const todos = this.todos();
+      const stats = this.todoStats();
+      
+      console.warn(`📊 TodoService - Effect déclenché:`);
+      console.warn(`   - Total todos: ${stats.total}`);
+      console.warn(`   - Complétés: ${stats.completed} (${stats.completionRate}%)`);
+      console.warn(`   - En cours: ${stats.inProgress}`);
+      console.warn(`   - Priorité haute: ${stats.highPriority}`);
+      
+      // Sauvegarder dans localStorage
+      localStorage.setItem('todos', JSON.stringify(todos));
+      console.warn(`💾 Todos sauvegardés dans localStorage`);
+    });
+  }
+
   // Simuler un délai réseau
   private delay(ms: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -45,24 +99,24 @@ export class TodoService {
 
   // GET - Récupérer tous les todos
   async getAllTodos(): Promise<Todo[]> {
-    console.log('🔄 Service: Récupération de tous les todos...');
-    await this.delay(300); // Simuler un appel API
-    console.log('✅ Service: Todos récupérés avec succès');
+    console.warn('🔄 Service: Récupération de tous les todos...');
+    await this.delay(300);
+    console.warn('✅ Service: Todos récupérés avec succès');
     return this.todos();
   }
 
   // GET - Récupérer un todo par ID
   async getTodoById(id: number): Promise<Todo | undefined> {
-    console.log(`🔄 Service: Récupération du todo ${id}...`);
+    console.warn(`🔄 Service: Récupération du todo ${id}...`);
     await this.delay(200);
     const todo = this.todos().find(t => t.id === id);
-    console.log(`✅ Service: Todo ${id} récupéré:`, todo);
+    console.warn(`✅ Service: Todo ${id} récupéré:`, todo);
     return todo;
   }
 
   // POST - Créer un nouveau todo
   async createTodo(todoData: CreateTodoRequest): Promise<Todo> {
-    console.log("🔄 Service: Création d'un nouveau todo...", todoData);
+    console.warn("🔄 Service: Création d'un nouveau todo...", todoData);
     await this.delay(400);
 
     const newTodo: Todo = {
@@ -77,14 +131,15 @@ export class TodoService {
       updatedAt: new Date(),
     };
 
+    // Mise à jour du signal - déclenche automatiquement les computed et effects
     this.todos.update(todos => [...todos, newTodo]);
-    console.log('✅ Service: Todo créé avec succès:', newTodo);
+    console.warn('✅ Service: Todo créé avec succès:', newTodo);
     return newTodo;
   }
 
   // PUT - Mettre à jour un todo
   async updateTodo(id: number, updates: Partial<Todo>): Promise<Todo | undefined> {
-    console.log(`🔄 Service: Mise à jour du todo ${id}...`, updates);
+    console.warn(`🔄 Service: Mise à jour du todo ${id}...`, updates);
     await this.delay(300);
 
     let updatedTodo: Todo | undefined;
@@ -102,13 +157,13 @@ export class TodoService {
       })
     );
 
-    console.log(`✅ Service: Todo ${id} mis à jour:`, updatedTodo);
+    console.warn(`✅ Service: Todo ${id} mis à jour:`, updatedTodo);
     return updatedTodo;
   }
 
   // DELETE - Supprimer un todo
   async deleteTodo(id: number): Promise<boolean> {
-    console.log(`🔄 Service: Suppression du todo ${id}...`);
+    console.warn(`🔄 Service: Suppression du todo ${id}...`);
     await this.delay(250);
 
     let deleted = false;
@@ -119,16 +174,25 @@ export class TodoService {
       return filtered;
     });
 
-    console.log(`✅ Service: Todo ${id} supprimé:`, deleted);
+    console.warn(`✅ Service: Todo ${id} supprimé:`, deleted);
     return deleted;
   }
 
-  // Méthodes utilitaires
+  // Méthodes utilitaires utilisant les computed signals
   getTodosByStatus(status: Todo['status']): Todo[] {
+    if (status === 'done') return this.completedTodos();
+    if (status === 'todo') return this.pendingTodos();
+    if (status === 'in-progress') return this.inProgressTodos();
     return this.todos().filter(todo => todo.status === status);
   }
 
   getTodosByPriority(priority: Todo['priority']): Todo[] {
+    if (priority === 'high') return this.highPriorityTodos();
     return this.todos().filter(todo => todo.priority === priority);
+  }
+
+  // Méthode pour obtenir les statistiques en temps réel
+  getStats() {
+    return this.todoStats();
   }
 }

@@ -1,0 +1,28 @@
+import { Directive, ElementRef, Input, OnInit, Renderer2, inject } from '@angular/core';
+
+@Directive({
+  selector: '[appHighlight]',
+  standalone: true
+})
+export class HighlightDirective implements OnInit {
+  private el = inject(ElementRef);
+  private renderer = inject(Renderer2);
+
+  @Input() appHighlight: string = 'yellow';
+  @Input() appHighlightDelay: number = 0;
+
+  ngOnInit() {
+    setTimeout(() => {
+      this.renderer.setStyle(
+        this.el.nativeElement,
+        'background-color',
+        this.appHighlight
+      );
+      this.renderer.setStyle(
+        this.el.nativeElement,
+        'transition',
+        'background-color 0.3s ease'
+      );
+    }, this.appHighlightDelay);
+  }
+} 

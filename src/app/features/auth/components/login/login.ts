@@ -78,8 +78,6 @@ import { ErrorService } from '../../../../shared/services/error.service';
             </button>
           </div>
 
-
-
           <!-- Link to Register -->
           <div class="text-center">
             <p class="text-sm text-gray-600">
@@ -120,7 +118,7 @@ export class LoginComponent {
           this.loading.set(false);
           this.authService.setCurrentUser(user);
           this.errorService.showInfo(`Bienvenue ${user.name} !`);
-          
+
           // Redirection
           const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/todos';
           this.router.navigate([returnUrl]);

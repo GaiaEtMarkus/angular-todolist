@@ -46,4 +46,4 @@ export function authInterceptor(request: HttpRequest<unknown>, next: HttpHandler
       return throwError(() => error);
     })
   );
-} 
+}

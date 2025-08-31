@@ -129,8 +129,6 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
             </button>
           </div>
 
-
-
           <!-- Link to Login -->
           <div class="text-center">
             <p class="text-sm text-gray-600">
@@ -171,7 +169,7 @@ export class RegisterComponent {
       this.loading.set(true);
 
       this.authService.register(this.registerForm.value).subscribe({
-        next: (user) => {
+        next: user => {
           this.loading.set(false);
           this.authService.setCurrentUser(user);
           this.errorService.showInfo(`Compte créé avec succès ! Bienvenue ${user.name} !`);
