@@ -42,13 +42,17 @@ import { Todo } from '../../todos/models/todo.model';
             <div class="flex items-center">
               <div class="flex-shrink-0">
                 <div class="w-8 h-8 bg-green-500 rounded-md flex items-center justify-center">
-                  <span class="text-white text-sm font-bold">{{ getTodosByStatus('done').length }}</span>
+                  <span class="text-white text-sm font-bold">{{
+                    getTodosByStatus('done').length
+                  }}</span>
                 </div>
               </div>
               <div class="ml-5 w-0 flex-1">
                 <dl>
                   <dt class="text-sm font-medium text-gray-500 truncate">Tickets terminés</dt>
-                  <dd class="text-lg font-medium text-gray-900">{{ getTodosByStatus('done').length }}</dd>
+                  <dd class="text-lg font-medium text-gray-900">
+                    {{ getTodosByStatus('done').length }}
+                  </dd>
                 </dl>
               </div>
             </div>
@@ -60,13 +64,17 @@ import { Todo } from '../../todos/models/todo.model';
             <div class="flex items-center">
               <div class="flex-shrink-0">
                 <div class="w-8 h-8 bg-yellow-500 rounded-md flex items-center justify-center">
-                  <span class="text-white text-sm font-bold">{{ getTodosByStatus('in-progress').length }}</span>
+                  <span class="text-white text-sm font-bold">{{
+                    getTodosByStatus('in-progress').length
+                  }}</span>
                 </div>
               </div>
               <div class="ml-5 w-0 flex-1">
                 <dl>
                   <dt class="text-sm font-medium text-gray-500 truncate">En cours</dt>
-                  <dd class="text-lg font-medium text-gray-900">{{ getTodosByStatus('in-progress').length }}</dd>
+                  <dd class="text-lg font-medium text-gray-900">
+                    {{ getTodosByStatus('in-progress').length }}
+                  </dd>
                 </dl>
               </div>
             </div>
@@ -78,13 +86,17 @@ import { Todo } from '../../todos/models/todo.model';
             <div class="flex items-center">
               <div class="flex-shrink-0">
                 <div class="w-8 h-8 bg-red-500 rounded-md flex items-center justify-center">
-                  <span class="text-white text-sm font-bold">{{ getTodosByStatus('todo').length }}</span>
+                  <span class="text-white text-sm font-bold">{{
+                    getTodosByStatus('todo').length
+                  }}</span>
                 </div>
               </div>
               <div class="ml-5 w-0 flex-1">
                 <dl>
                   <dt class="text-sm font-medium text-gray-500 truncate">À faire</dt>
-                  <dd class="text-lg font-medium text-gray-900">{{ getTodosByStatus('todo').length }}</dd>
+                  <dd class="text-lg font-medium text-gray-900">
+                    {{ getTodosByStatus('todo').length }}
+                  </dd>
                 </dl>
               </div>
             </div>
@@ -128,13 +140,19 @@ import { Todo } from '../../todos/models/todo.model';
                 <table class="min-w-full divide-y divide-gray-200">
                   <thead class="bg-gray-50">
                     <tr>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
                         Utilisateur
                       </th>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
                         Rôle
                       </th>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
                         Actions
                       </th>
                     </tr>
@@ -145,7 +163,9 @@ import { Todo } from '../../todos/models/todo.model';
                         <td class="px-6 py-4 whitespace-nowrap">
                           <div class="flex items-center">
                             <div class="flex-shrink-0 h-10 w-10">
-                              <div class="h-10 w-10 rounded-full bg-gray-300 flex items-center justify-center">
+                              <div
+                                class="h-10 w-10 rounded-full bg-gray-300 flex items-center justify-center"
+                              >
                                 <span class="text-sm font-medium text-gray-700">
                                   {{ user.name.charAt(0).toUpperCase() }}
                                 </span>
@@ -203,19 +223,29 @@ import { Todo } from '../../todos/models/todo.model';
                 <table class="min-w-full divide-y divide-gray-200">
                   <thead class="bg-gray-50">
                     <tr>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
                         Ticket
                       </th>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
                         Statut
                       </th>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
                         Priorité
                       </th>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
                         Assigné à
                       </th>
-                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
                         Actions
                       </th>
                     </tr>
@@ -411,7 +441,7 @@ export class AdminComponent implements OnInit {
       await this.todoService.updateTodo(todoId, { assignedTo });
       await this.loadTodos();
     } catch (error) {
-      console.error('Erreur lors de l\'attribution:', error);
+      console.error("Erreur lors de l'attribution:", error);
     }
   }
 
