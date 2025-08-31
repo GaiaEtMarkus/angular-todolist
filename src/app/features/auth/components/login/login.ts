@@ -1,8 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth';
+import { Router, ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 import { User } from '../../models/user.model';
 
 @Component({
@@ -10,14 +10,16 @@ import { User } from '../../models/user.model';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   template: `
-    <div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div
+      class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8"
+    >
       <div class="max-w-md w-full space-y-8">
         <div>
           <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
             Connexion à votre compte
           </h2>
         </div>
-        
+
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="mt-8 space-y-6">
           <!-- Email -->
           <div>
@@ -65,7 +67,9 @@ import { User } from '../../models/user.model';
               class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
             >
               @if (loading()) {
-                <span class="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></span>
+                <span
+                  class="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"
+                ></span>
                 Connexion en cours...
               } @else {
                 Se connecter
@@ -82,12 +86,13 @@ import { User } from '../../models/user.model';
         </form>
       </div>
     </div>
-  `
+  `,
 })
 export class LoginComponent {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
   loginForm: FormGroup;
   loading = signal(false);
@@ -96,7 +101,7 @@ export class LoginComponent {
   constructor() {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
 
@@ -109,12 +114,15 @@ export class LoginComponent {
         next: (user: User) => {
           this.loading.set(false);
           this.authService.setCurrentUser(user);
-          this.router.navigate(['/todos']);
+
+          // Redirection vers la page demandée ou /todos par défaut
+          const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/todos';
+          this.router.navigate([returnUrl]);
         },
         error: (err: Error) => {
           this.loading.set(false);
           this.error.set(err.message || 'Erreur de connexion');
-        }
+        },
       });
     }
   }
@@ -128,8 +136,9 @@ export class LoginComponent {
     const field = this.loginForm.get(fieldName);
     if (field?.errors) {
       if (field.errors['required']) return 'Ce champ est requis';
-      if (field.errors['email']) return 'Format d\'email invalide';
-      if (field.errors['minlength']) return `Minimum ${field.errors['minlength'].requiredLength} caractères`;
+      if (field.errors['email']) return "Format d'email invalide";
+      if (field.errors['minlength'])
+        return `Minimum ${field.errors['minlength'].requiredLength} caractères`;
     }
     return '';
   }

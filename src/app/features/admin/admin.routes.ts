@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
+import { AdminComponent } from './components/admin.component';
 
 export const ADMIN_ROUTES: Routes = [
   {
     path: '',
-    // TODO: Ajouter AdminComponent dans la Partie 2
-    redirectTo: '/todos',
+    component: AdminComponent,
   },
 ];

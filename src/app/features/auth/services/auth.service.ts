@@ -3,7 +3,7 @@ import { Observable, of, throwError, delay } from 'rxjs';
 import { User, LoginRequest, RegisterRequest } from '../models/user.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   private currentUser = signal<User | null>(null);
@@ -15,20 +15,20 @@ export class AuthService {
       id: 1,
       name: 'Admin User',
       email: 'admin@example.com',
-      role: 'admin'
+      role: 'admin',
     },
     {
       id: 2,
       name: 'Normal User',
       email: 'user@example.com',
-      role: 'user'
-    }
+      role: 'user',
+    },
   ];
 
   // Mock data - mots de passe (en réalité, ils seraient hashés)
-  private passwords: { [key: string]: string } = {
+  private passwords: Record<string, string> = {
     'admin@example.com': 'admin123',
-    'user@example.com': 'user123'
+    'user@example.com': 'user123',
   };
 
   constructor() {
@@ -63,7 +63,7 @@ export class AuthService {
       id: this.users.length + 1,
       name: userData.name,
       email: userData.email,
-      role: 'user'
+      role: 'user',
     };
 
     // Ajouter aux mock data
