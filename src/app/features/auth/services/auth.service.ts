@@ -96,6 +96,15 @@ export class AuthService {
     return throwError(() => new Error('Utilisateur non trouvé'));
   }
 
+  updateUserRole(userId: number, newRole: 'user' | 'admin'): Observable<User> {
+    const user = this.users.find(u => u.id === userId);
+    if (user) {
+      user.role = newRole;
+      return of(user).pipe(delay(300));
+    }
+    return throwError(() => new Error('Utilisateur non trouvé'));
+  }
+
   getToken(): string | null {
     const user = this.currentUser();
     return user ? `mock-token-${user.id}` : null;
