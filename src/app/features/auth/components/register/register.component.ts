@@ -10,6 +10,7 @@ import {
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { ErrorService } from '../../../../shared/services/error.service';
 
 // Validateur personnalisé pour la confirmation de mot de passe
 function passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
@@ -128,12 +129,7 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
             </button>
           </div>
 
-          <!-- Error Message -->
-          @if (error()) {
-            <div class="bg-red-50 border border-red-200 rounded-md p-4">
-              <p class="text-sm text-red-600">{{ error() }}</p>
-            </div>
-          }
+
 
           <!-- Link to Login -->
           <div class="text-center">
@@ -153,10 +149,10 @@ export class RegisterComponent {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
+  private errorService = inject(ErrorService);
 
   registerForm: FormGroup;
   loading = signal(false);
-  error = signal<string>('');
 
   constructor() {
     this.registerForm = this.fb.group(
@@ -173,16 +169,17 @@ export class RegisterComponent {
   onSubmit() {
     if (this.registerForm.valid) {
       this.loading.set(true);
-      this.error.set('');
 
       this.authService.register(this.registerForm.value).subscribe({
-        next: () => {
+        next: (user) => {
           this.loading.set(false);
+          this.authService.setCurrentUser(user);
+          this.errorService.showInfo(`Compte créé avec succès ! Bienvenue ${user.name} !`);
           this.router.navigate(['/todos']);
         },
-        error: (err: Error) => {
+        error: () => {
           this.loading.set(false);
-          this.error.set(err.message || 'Erreur lors de la création du compte');
+          // L'erreur est déjà gérée par le service
         },
       });
     }

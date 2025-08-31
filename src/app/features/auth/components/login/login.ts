@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../models/user.model';
+import { ErrorService } from '../../../../shared/services/error.service';
 
 @Component({
   selector: 'app-login',
@@ -77,12 +78,7 @@ import { User } from '../../models/user.model';
             </button>
           </div>
 
-          <!-- Error Message -->
-          @if (error()) {
-            <div class="bg-red-50 border border-red-200 rounded-md p-4">
-              <p class="text-sm text-red-600">{{ error() }}</p>
-            </div>
-          }
+
 
           <!-- Link to Register -->
           <div class="text-center">
@@ -103,35 +99,35 @@ export class LoginComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private errorService = inject(ErrorService);
 
   loginForm: FormGroup;
   loading = signal(false);
-  error = signal<string>('');
 
   constructor() {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', [Validators.required]],
     });
   }
 
   onSubmit() {
     if (this.loginForm.valid) {
       this.loading.set(true);
-      this.error.set('');
 
       this.authService.login(this.loginForm.value).subscribe({
         next: (user: User) => {
           this.loading.set(false);
           this.authService.setCurrentUser(user);
-
-          // Redirection vers la page demandée ou /todos par défaut
+          this.errorService.showInfo(`Bienvenue ${user.name} !`);
+          
+          // Redirection
           const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/todos';
           this.router.navigate([returnUrl]);
         },
-        error: (err: Error) => {
+        error: () => {
           this.loading.set(false);
-          this.error.set(err.message || 'Erreur de connexion');
+          // L'erreur est déjà gérée par le service
         },
       });
     }

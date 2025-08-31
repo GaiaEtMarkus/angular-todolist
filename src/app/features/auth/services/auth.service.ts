@@ -1,11 +1,14 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, inject } from '@angular/core';
 import { Observable, of, throwError, delay } from 'rxjs';
 import { User, LoginRequest, RegisterRequest } from '../models/user.model';
+import { ErrorService } from '../../../shared/services/error.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  private errorService = inject(ErrorService);
+  
   private currentUser = signal<User | null>(null);
   public currentUser$ = this.currentUser.asReadonly();
 
@@ -47,6 +50,7 @@ export class AuthService {
       // Simuler un délai réseau
       return of(user).pipe(delay(500));
     } else {
+      this.errorService.showError('Email ou mot de passe incorrect');
       return throwError(() => new Error('Email ou mot de passe incorrect'));
     }
   }
@@ -55,6 +59,7 @@ export class AuthService {
     // Vérifier si l'email existe déjà
     const existingUser = this.users.find(u => u.email === userData.email);
     if (existingUser) {
+      this.errorService.showError('Cet email est déjà utilisé');
       return throwError(() => new Error('Cet email est déjà utilisé'));
     }
 
@@ -77,6 +82,8 @@ export class AuthService {
   logout(): void {
     this.currentUser.set(null);
     localStorage.removeItem('currentUser');
+    localStorage.removeItem('authToken');
+    this.errorService.showInfo('Déconnexion réussie');
   }
 
   getCurrentUser(): User | null {
@@ -91,8 +98,10 @@ export class AuthService {
     const index = this.users.findIndex(u => u.id === userId);
     if (index !== -1) {
       this.users.splice(index, 1);
+      this.errorService.showInfo('Utilisateur supprimé avec succès');
       return of(void 0).pipe(delay(300));
     }
+    this.errorService.showError('Utilisateur non trouvé');
     return throwError(() => new Error('Utilisateur non trouvé'));
   }
 
@@ -100,19 +109,22 @@ export class AuthService {
     const user = this.users.find(u => u.id === userId);
     if (user) {
       user.role = newRole;
+      this.errorService.showInfo(`Rôle de ${user.name} changé en ${newRole}`);
       return of(user).pipe(delay(300));
     }
+    this.errorService.showError('Utilisateur non trouvé');
     return throwError(() => new Error('Utilisateur non trouvé'));
   }
 
   getToken(): string | null {
-    const user = this.currentUser();
-    return user ? `mock-token-${user.id}` : null;
+    return localStorage.getItem('authToken');
   }
 
-  // Méthode pour définir l'utilisateur connecté (utilisée après login)
   setCurrentUser(user: User): void {
     this.currentUser.set(user);
     localStorage.setItem('currentUser', JSON.stringify(user));
+    // Simuler un token JWT
+    const token = `mock-jwt-token-${user.id}-${Date.now()}`;
+    localStorage.setItem('authToken', token);
   }
 }
