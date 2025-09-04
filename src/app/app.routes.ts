@@ -22,4 +22,8 @@ export const routes: Routes = [
     canActivate: [authGuard, adminGuard],
     loadChildren: () => import('./features/admin/admin.routes').then(m => m.ADMIN_ROUTES),
   },
+  {
+    path: '**',
+    redirectTo: '/todos',
+  },
 ];

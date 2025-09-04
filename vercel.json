@@ -1,0 +1,25 @@
+{
+  "buildCommand": "ng build --configuration=production",
+  "outputDirectory": "dist/todo-list-app/browser",
+  "installCommand": "npm install",
+  "headers": [
+    {
+      "source": "/(.*)\\.js",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/javascript"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)\\.mjs",
+      "headers": [
+        {
+          "key": "Content-Type", 
+          "value": "application/javascript"
+        }
+      ]
+    }
+  ]
+}
